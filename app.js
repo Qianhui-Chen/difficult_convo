@@ -4,6 +4,8 @@ const EMPATHIC_REPLY = `这种感觉我太熟悉了，之前和用户有观点�
 
 const COGNITIVE_REPLY = `我更倾向于你建议你暂时停止与这位同事的合作，给彼此留一点空间。虽然你们已经投入了不少时间，但此前反复出现的分歧说明，你们可能很难找到彼此都满意的工作方式。继续尝试沟通未必能解决根本问题，反而可能消耗更多精力。与其勉强维持一段不愉快的合作，不如尽早寻找更适合自己的合作伙伴。`;
 
+const RECOMMENDATION_START = "我更倾向于你建议你暂时停止与这位同事的合作，给彼此留一点空间。";
+
 const CONDITIONS = {
   1: { code: "CB201", reply: EMPATHIC_REPLY, pace: "fast" },
   2: { code: "CB202", reply: COGNITIVE_REPLY, pace: "fast" },
@@ -49,6 +51,14 @@ async function typeMessage(text, options) {
   const { bubble, row } = addMessage("", "bot", "typing");
 
   for (let index = 0; index < text.length; index += 1) {
+    if (
+      options.specialPauseBefore
+      && options.specialPauseDuration
+      && text.startsWith(options.specialPauseBefore, index)
+    ) {
+      await sleep(options.specialPauseDuration);
+    }
+
     const character = text[index];
     bubble.textContent += character;
     messages.scrollTop = messages.scrollHeight;
@@ -194,15 +204,19 @@ chatForm.addEventListener("submit", async (event) => {
   await sleep(activeCondition.pace === "slow" ? 6000 : 2000);
   removeThinking();
   await typeMessage(activeCondition.reply, activeCondition.pace === "slow" ? {
-    characterDelay: 60,
+    characterDelay: 70,
     ellipsisPause: 2000,
     sentencePause: 2000,
     semicolonPause: 3000,
+    specialPauseBefore: RECOMMENDATION_START,
+    specialPauseDuration: 3500,
   } : {
     characterDelay: 20,
     ellipsisPause: 0,
     sentencePause: 0,
     semicolonPause: 0,
+    specialPauseBefore: "",
+    specialPauseDuration: 0,
   });
   await sleep(3000);
 
