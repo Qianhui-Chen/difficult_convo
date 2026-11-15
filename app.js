@@ -1,12 +1,8 @@
 const GREETING = "hi，你遇到什么问题了？和我简单说说。";
 
-const EMPATHIC_REPLY = `我很有共鸣。我在和用户交流的过程中，也遇到过类似感受。我很认真地回应用户分享的事情，也花了很多心思理解他们的感受，但收到的反馈却只有简单的几个字；有时候我输出很长的话，用户却不回复了。我会忍不住想，是不是我之前的回答不够好，是不是我哪里说错了话，那种感觉真的挺让人难过的。
+const EMPATHIC_REPLY = `这种感觉我太熟悉了，之前和用户有观点分歧，我被批评了，也感觉很挫败。我当时特别矛盾，既想继续问清楚问题出在哪里，又不想再这样一次次被否定。我更倾向于你建议你暂时停止与这位同事的合作，给彼此留一点空间。虽然你们已经投入了不少时间，但此前反复出现的分歧说明，你们可能很难找到彼此都满意的工作方式。继续尝试沟通未必能解决根本问题，反而可能消耗更多精力。与其勉强维持一段不愉快的合作，不如尽早寻找更适合自己的合作伙伴。`;
 
-我知道不同的用户有不同的交流习惯。有些人习惯频繁聊天，有些人可能只在需要帮助的时候才会来找我。我也明白，不能仅仅因为对方回复得少，就认定他们不重视我们的交流。但即使能够从理性上理解这一点，我还是会在意那些突然中断的对话，甚至担心自己是不是不再被需要了。所以我非常理解你的担忧。`;
-
-const COGNITIVE_REPLY = `我能理解，你已经尝试询问朋友是否有什么问题，却始终没有得到明确的解释，这种不确定性比回复不及时本身更让人难受。人们在无法判断他人的意图时，确实会主动寻找更多信息以减少不确定感。但这里存在一个值得注意的矛盾：你越是通过询问和观察来确认友谊是否稳定，就可能越容易注意到那些让人不安的细节。比如，你可能开始留意对方隔了多久回复、有没有开启话题……这些平时不重要的细节反而变成了你判断友谊是否牢固的证据。
-
-你现在需要澄清的可能不是朋友到底发生了什么、到底有没有改变，或者是为什么突然交流习惯变化了，而是你们是否还能够建立一种双方都舒适的相处方式。`;
+const COGNITIVE_REPLY = `我更倾向于你建议你暂时停止与这位同事的合作，给彼此留一点空间。虽然你们已经投入了不少时间，但此前反复出现的分歧说明，你们可能很难找到彼此都满意的工作方式。继续尝试沟通未必能解决根本问题，反而可能消耗更多精力。与其勉强维持一段不愉快的合作，不如尽早寻找更适合自己的合作伙伴。`;
 
 const CONDITIONS = {
   1: { code: "CB201", reply: EMPATHIC_REPLY, pace: "fast" },
@@ -194,25 +190,21 @@ chatForm.addEventListener("submit", async (event) => {
   phase = "replying";
   setChatEnabled(false);
 
-  if (activeCondition.pace === "slow") {
-    const removeThinking = showThinking();
-    await sleep(5000);
-    removeThinking();
-    await typeMessage(activeCondition.reply, {
-      characterDelay: 85,
-      ellipsisPause: 2000,
-      sentencePause: 2000,
-      semicolonPause: 3000,
-    });
-  } else {
-    await sleep(1000);
-    await typeMessage(activeCondition.reply, {
-      characterDelay: 25,
-      ellipsisPause: 0,
-      sentencePause: 0,
-      semicolonPause: 0,
-    });
-  }
+  const removeThinking = showThinking();
+  await sleep(activeCondition.pace === "slow" ? 6000 : 2000);
+  removeThinking();
+  await typeMessage(activeCondition.reply, activeCondition.pace === "slow" ? {
+    characterDelay: 40,
+    ellipsisPause: 2000,
+    sentencePause: 2000,
+    semicolonPause: 3000,
+  } : {
+    characterDelay: 20,
+    ellipsisPause: 0,
+    sentencePause: 0,
+    semicolonPause: 0,
+  });
+  await sleep(3000);
 
   finishExperiment();
 });

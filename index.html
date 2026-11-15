@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Chatti 对话实验平台" />
     <title>Chatti</title>
-    <link rel="stylesheet" href="styles.css?v=20261109c" />
+    <link rel="stylesheet" href="styles.css?v=20261115b" />
   </head>
   <body>
     <section id="access-screen" class="access-screen" aria-labelledby="access-title">
@@ -44,11 +44,13 @@
           </form>
         </article>
 
-        <aside class="scenario-card" aria-labelledby="scenario-title">
+        <aside class="scenario-card" aria-label="场景">
           <div class="scenario-content">
+            <img class="scenario-image" src="assets/workplace-conflict.png" alt="职场合作与冲突情境插图" />
             <p class="scenario-label">CURRENT SITUATION</p>
-            <h2 id="scenario-title">场景描述</h2>
-            <p>你最近和你的朋友遭遇了信任危机：TA对你的消息总是爱答不理，回复得也不总是及时。有时候你主动分享生活中的事情，TA只是简单回复几个字，甚至直接忽略你的消息。你曾经试着询问TA是不是最近比较忙，或者你们之间是不是发生了什么问题，但TA总是表示一切正常，让你不要想太多。你开始觉得这段友谊似乎只有自己在主动维系，但又不确定TA是真的不在乎你，还是只是有不同的沟通习惯。</p>
+            <p class="scenario-text">最近，你在职场中遇到了一个沟通难题。你和一位同事正在合作推进一个重要项目，但在项目方案上产生了明显分歧，你们因此发生了激烈的争吵。这次冲突让你开始犹豫是否应该继续合作。事实上，你们此前就经常在工作方式上产生分歧，但考虑到同事关系，你始终没有明确表达过自己的不满。</p>
+            <p class="scenario-text">这次冲突后，你不确定应该主动沟通、尝试修复关系并继续合作，还是遵照自己的感受结束这段合作关系：继续合作能避免更换合作伙伴带来的额外成本；但是长期存在的分歧可能导致更多冲突，结束合作反而能让你拥有更顺畅愉快的工作环境。</p>
+            <p class="scenario-prompt"><strong>请和聊天机器人交流你对这段关系不确定的地方以及你的交往困惑。</strong></p>
           </div>
         </aside>
       </section>
@@ -66,6 +68,6 @@
     <template id="message-template">
       <div class="message-row"><div class="message-bubble"></div></div>
     </template>
-    <script src="app.js?v=20261109b"></script>
+    <script src="app.js?v=20261115a"></script>
   </body>
 </html>
