@@ -194,7 +194,7 @@ chatForm.addEventListener("submit", async (event) => {
   await sleep(activeCondition.pace === "slow" ? 6000 : 2000);
   removeThinking();
   await typeMessage(activeCondition.reply, activeCondition.pace === "slow" ? {
-    characterDelay: 40,
+    characterDelay: 60,
     ellipsisPause: 2000,
     sentencePause: 2000,
     semicolonPause: 3000,
