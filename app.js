@@ -51,24 +51,18 @@ async function typeMessage(text, options) {
   const { bubble, row } = addMessage("", "bot", "typing");
 
   for (let index = 0; index < text.length; index += 1) {
-    if (
-      options.specialPauseBefore
-      && options.specialPauseDuration
-      && text.startsWith(options.specialPauseBefore, index)
-    ) {
-      await sleep(options.specialPauseDuration);
-    }
-
     const character = text[index];
     bubble.textContent += character;
     messages.scrollTop = messages.scrollHeight;
     await sleep(options.characterDelay);
 
     const isEllipsisEnd = character === "…" && text[index + 1] !== "…";
+    const isSpecialTransition = options.specialPauseBefore
+      && text.startsWith(options.specialPauseBefore, index + 1);
     if (isEllipsisEnd && options.ellipsisPause) {
       await sleep(options.ellipsisPause);
     } else if (/[。.]/.test(character) && options.sentencePause) {
-      await sleep(options.sentencePause);
+      await sleep(isSpecialTransition ? options.specialSentencePause : options.sentencePause);
     } else if (/[；;]/.test(character) && options.semicolonPause) {
       await sleep(options.semicolonPause);
     }
@@ -209,14 +203,14 @@ chatForm.addEventListener("submit", async (event) => {
     sentencePause: 2000,
     semicolonPause: 3000,
     specialPauseBefore: RECOMMENDATION_START,
-    specialPauseDuration: 3500,
+    specialSentencePause: 3500,
   } : {
     characterDelay: 20,
     ellipsisPause: 0,
     sentencePause: 0,
     semicolonPause: 0,
     specialPauseBefore: "",
-    specialPauseDuration: 0,
+    specialSentencePause: 0,
   });
   await sleep(3000);
 
